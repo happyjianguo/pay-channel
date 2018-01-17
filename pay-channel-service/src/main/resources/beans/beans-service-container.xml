@@ -7,7 +7,7 @@
 	    http://code.alibabatech.com/schema/dubbo
 	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!-- 使用注解方式暴露接口 -->
-    <bean id="demo" class="com.dream.pay.channel.DemoImpl"/>
+    <bean id="demo" class="com.dream.pay.channel.access.impl.DemoImpl"/>
     <dubbo:service interface="com.dream.pay.channel.Demo" ref="demo" protocol="dubbo,rest"
                    registry="zookeeper"/>
 </beans>

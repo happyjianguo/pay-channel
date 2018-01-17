@@ -18,6 +18,11 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.dream.pay</groupId>
+            <artifactId>pay-channel-access-impl</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.youzan.platform</groupId>
             <artifactId>bootstrap</artifactId>
         </dependency>

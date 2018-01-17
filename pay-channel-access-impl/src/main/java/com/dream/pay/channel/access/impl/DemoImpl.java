@@ -1,5 +1,6 @@
-package com.dream.pay.channel;
+package com.dream.pay.channel.access.impl;
 
+import com.dream.pay.channel.Demo;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.GET;

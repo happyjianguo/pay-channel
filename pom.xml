@@ -12,6 +12,7 @@
         <module>pay-channel-access</module>
         <module>pay-channel-service</module>
         <module>pay-channel-deploy</module>
+        <module>pay-channel-access-impl</module>
     </modules>
 
     <properties>
