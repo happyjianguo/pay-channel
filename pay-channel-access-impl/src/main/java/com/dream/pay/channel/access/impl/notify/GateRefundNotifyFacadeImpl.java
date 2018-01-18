@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
  * @author mengzhenbin
  */
 @Slf4j
-@Service("gateRefundNotifyFacadeImpl")
 public class GateRefundNotifyFacadeImpl implements GateRefundNotifyFacade {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(GateRefundNotifyFacadeImpl.class);
     @Autowired

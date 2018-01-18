@@ -26,7 +26,6 @@ import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service("acceptPayNotifyFacadeImpl")
 @Slf4j
 public class AcceptPayNotifyFacadeImpl implements AcceptPayNotifyFacade {
 

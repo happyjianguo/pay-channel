@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
  *
  * @author mengzhenbin
  */
-@Service("gatePayApplyFacadeImpl")
 @Slf4j
 public class GatePayApplyFacadeImpl implements GatePayApplyFacade {
     @Autowired

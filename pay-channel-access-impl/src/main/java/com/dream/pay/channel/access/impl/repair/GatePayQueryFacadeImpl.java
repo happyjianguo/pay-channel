@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author mengzhenbin
  */
-@Service("gatePayQueryFacadeImpl")
 @Slf4j
 public class GatePayQueryFacadeImpl implements GatePayQueryFacade {
     @Autowired

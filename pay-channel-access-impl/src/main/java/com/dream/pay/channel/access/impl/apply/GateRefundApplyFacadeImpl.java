@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
  *
  * @author mengzhenbin
  */
-@Service("gateRefundApplyFacadeImpl")
 @Slf4j
 public class GateRefundApplyFacadeImpl implements GateRefundApplyFacade {
     @Autowired

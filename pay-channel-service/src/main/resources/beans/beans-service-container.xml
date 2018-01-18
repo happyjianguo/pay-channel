@@ -7,7 +7,35 @@
 	    http://code.alibabatech.com/schema/dubbo
 	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!-- 使用注解方式暴露接口 -->
-    <bean id="demo" class="com.dream.pay.channel.access.impl.DemoImpl"/>
-    <dubbo:service interface="com.dream.pay.channel.Demo" ref="demo" protocol="dubbo,rest"
+
+    <bean id="payApply" class="com.dream.pay.channel.access.impl.apply.GatePayApplyFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.apply.GatePayApplyFacade" ref="payApply"
+                   protocol="dubbo,rest"
                    registry="zookeeper"/>
+
+    <bean id="refundApply" class="com.dream.pay.channel.access.impl.apply.GateRefundApplyFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.apply.GateRefundApplyFacade" ref="refundApply"
+                   protocol="dubbo,rest"
+                   registry="zookeeper"/>
+
+    <bean id="payNotify" class="com.dream.pay.channel.access.impl.notify.GatePayNotifyFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.notify.GatePayNotifyFacade" ref="payNotify"
+                   protocol="dubbo,rest"
+                   registry="zookeeper"/>
+
+    <bean id="refundNotify" class="com.dream.pay.channel.access.impl.notify.GateRefundNotifyFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.notify.GateRefundNotifyFacade" ref="refundNotify"
+                   protocol="dubbo,rest"
+                   registry="zookeeper"/>
+
+    <bean id="payQuery" class="com.dream.pay.channel.access.impl.repair.GatePayQueryFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.repair.GatePayQueryFacade" ref="payQuery"
+                   protocol="dubbo,rest"
+                   registry="zookeeper"/>
+
+    <bean id="refundQuery" class="com.dream.pay.channel.access.impl.repair.GateRefundQueryFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.repair.GateRefundQueryFacade" ref="refundQuery"
+                   protocol="dubbo,rest"
+                   registry="zookeeper"/>
+
 </beans>

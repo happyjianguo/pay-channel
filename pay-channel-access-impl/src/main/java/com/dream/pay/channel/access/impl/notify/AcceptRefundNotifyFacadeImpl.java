@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 
-@Service("acceptRefundNotifyFacadeImpl")
 @Slf4j
 public class AcceptRefundNotifyFacadeImpl implements AcceptRefundNotifyFacade {
 
