@@ -18,6 +18,12 @@ import lombok.ToString;
 @ToString
 public class BaseRep implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 是否调用成功
+     */
+    private boolean success;
+
     /**
      * 渠道返回码(针对银行返回码的再次封装，银行返回码或透传或包装)
      */
