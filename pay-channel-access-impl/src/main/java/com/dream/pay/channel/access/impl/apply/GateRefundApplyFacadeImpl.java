@@ -25,20 +25,21 @@ public class GateRefundApplyFacadeImpl implements GateRefundApplyFacade {
 
     @Override
     public RefundApplyRepDTO refundApply(RefundApplyReqDTO refundApplyReqDTO) {
-        log.info("[退款申请][开始]-[{}]-[{}]-[{}]", refundApplyReqDTO.getPayType().name(), refundApplyReqDTO.getBizRefundNo(),
+        log.info("[退款申请][开始]-[{}]-[{}]-[{}]", refundApplyReqDTO.getPayType().name(), refundApplyReqDTO.getRefundDetailNo(),
                 DateUtil.currentDate());
         channel.select(refundApplyReqDTO.getPayType());
-        RefundApplyRepDTO refundApplyRepDTO = new RefundApplyRepDTO();
+        RefundApplyRepDTO refundApplyRepDTO;
         try {
             refundApplyRepDTO = channel.getGateWayService().refundApply(refundApplyReqDTO);
             log.info("[退款申请][结束]-[{}]-[{}]-[{}]", refundApplyRepDTO.getTradeStatus(), refundApplyRepDTO.getChlRtnMsg(),
-                    refundApplyRepDTO.getChlRepDateTime());
+                    refundApplyRepDTO.getChlFinishTime());
         } catch (BaseException e) {
+            refundApplyRepDTO = new RefundApplyRepDTO();
             refundApplyRepDTO.setTradeStatus(TradeStatus.UNKNOW);
             refundApplyRepDTO.setChlRtnCode(e.getErrorCode());
             refundApplyRepDTO.setChlRtnMsg(e.getErrorMsg());
             log.error("[退款申请][发生异常]-[{}]-[{}]", refundApplyReqDTO.getPayType().name(),
-                    refundApplyReqDTO.getBizRefundNo(), e);
+                    refundApplyReqDTO.getRefundDetailNo(), e);
         }
         return refundApplyRepDTO;
     }

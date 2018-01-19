@@ -18,13 +18,18 @@
                    protocol="dubbo,rest"
                    registry="zookeeper"/>
 
+    <bean id="withdrawApply" class="com.dream.pay.channel.access.impl.apply.GateWithdrawApplyFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.apply.GateWithdrawApplyFacade" ref="withdrawApply"
+                   protocol="dubbo,rest"
+                   registry="zookeeper"/>
+
     <bean id="payNotify" class="com.dream.pay.channel.access.impl.notify.GatePayNotifyFacadeImpl"/>
     <dubbo:service interface="com.dream.pay.channel.access.notify.GatePayNotifyFacade" ref="payNotify"
                    protocol="dubbo,rest"
                    registry="zookeeper"/>
 
-    <bean id="refundNotify" class="com.dream.pay.channel.access.impl.notify.GateRefundNotifyFacadeImpl"/>
-    <dubbo:service interface="com.dream.pay.channel.access.notify.GateRefundNotifyFacade" ref="refundNotify"
+    <bean id="acceptPayNotify" class="com.dream.pay.channel.access.impl.notify.AcceptPayNotifyFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.notify.AcceptPayNotifyFacade" ref="acceptPayNotify"
                    protocol="dubbo,rest"
                    registry="zookeeper"/>
 
@@ -35,6 +40,11 @@
 
     <bean id="refundQuery" class="com.dream.pay.channel.access.impl.repair.GateRefundQueryFacadeImpl"/>
     <dubbo:service interface="com.dream.pay.channel.access.repair.GateRefundQueryFacade" ref="refundQuery"
+                   protocol="dubbo,rest"
+                   registry="zookeeper"/>
+
+    <bean id="withdrawQuery" class="com.dream.pay.channel.access.impl.repair.GateWithdrawQueryFacadeImpl"/>
+    <dubbo:service interface="com.dream.pay.channel.access.repair.GateWithdrawQueryFacade" ref="withdrawQuery"
                    protocol="dubbo,rest"
                    registry="zookeeper"/>
 

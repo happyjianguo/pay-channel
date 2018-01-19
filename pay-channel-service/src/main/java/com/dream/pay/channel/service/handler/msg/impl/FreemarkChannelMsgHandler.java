@@ -61,7 +61,7 @@ public abstract class FreemarkChannelMsgHandler<REQ extends BaseReq, REP extends
 
     @Override
     public REP afterResolveMsg(REQ req, REP rep, ChannelConfig channelConfig) throws ChannelMsgException {
-        rep.setChlRepDateTime(new Date());
+        rep.setChlFinishTime(new Date());
         this.paramMap.remove();
         return rep;
     }

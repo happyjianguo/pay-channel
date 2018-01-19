@@ -8,23 +8,25 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class PayApplyRepDTO extends BaseRep {
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 支付业务单号
-	 */
-	private String bizOrderNo;
-	/**
-	 * 银行/第三方的交易流水号
-	 */
-	private String bankOrderNo;
-	/**
-	 * 支付业务单号对应支付金额
-	 */
-	private BigDecimal payAmount;
-	/**
-	 * 渠道返回的报文
-	 */
-	private String repContent;
+    /**
+     * 支付业务单号
+     */
+    private String payDetailNo;
+
+    /**
+     * 银行/第三方的交易流水号
+     */
+    private String bankPayDetailNo;
+
+    /**
+     * 支付业务单号对应支付金额
+     */
+    private BigDecimal payAmount;
+
+    /**
+     * 渠道返回的报文
+     */
+    private String repContent;
 }

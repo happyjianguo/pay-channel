@@ -7,6 +7,8 @@ import java.util.Map;
 
 
 import com.dream.pay.channel.access.enums.TradeStatus;
+import com.dream.pay.enums.BizChannelEnum;
+import com.dream.pay.enums.PayTool;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -35,15 +37,20 @@ public class BaseRep implements Serializable {
     /**
      * 渠道响应时间
      */
-    private Date chlRepDateTime;
+    private Date chlFinishTime;
     /**
      * 银行返回时间
      */
-    private Date bankFinshDateTime;
+    private Date bankFinishTime;
     /**
      * 支付方式
      */
-    private Integer payType;
+    private PayTool payType;
+
+    /**
+     * 支付通道
+     */
+    private BizChannelEnum bizChannel;
     /**
      * 扩展字段
      */

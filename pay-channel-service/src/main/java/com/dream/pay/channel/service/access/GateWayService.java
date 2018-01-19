@@ -1,4 +1,4 @@
-package com.dream.pay.channel.service.come;
+package com.dream.pay.channel.service.access;
 
 import com.dream.pay.channel.access.dto.*;
 import com.dream.pay.channel.service.exception.BaseException;
@@ -8,7 +8,7 @@ public interface GateWayService {
      * 支付
      *
      * @param payApplyReqDTO
-     * @return
+     * @return PayApplyRepDTO
      * @throws BaseException
      */
     public PayApplyRepDTO payApply(PayApplyReqDTO payApplyReqDTO) throws BaseException;
@@ -17,52 +17,25 @@ public interface GateWayService {
      * 支付查询
      *
      * @param payQueryReqDTO
-     * @return
+     * @return PayQueryRepDTO
      * @throws BaseException
      */
     public PayQueryRepDTO payQuery(PayQueryReqDTO payQueryReqDTO) throws BaseException;
 
     /**
-     * 签约查询
-     *
-     * @param payQueryReqDTO
-     * @return
-     * @throws BaseException
-     */
-    public PayQueryRepDTO agreeQuery(PayQueryReqDTO payQueryReqDTO) throws BaseException;
-
-    /**
-     * 公钥查询
-     *
-     * @param payQueryReqDTO
-     * @return
-     * @throws BaseException
-     */
-    public PayQueryRepDTO pubKeyQuery(PayQueryReqDTO payQueryReqDTO) throws BaseException;
-
-    /**
      * 支付回调
      *
      * @param payNotifyReqDTO
-     * @return
+     * @return PayNotifyRepDTO
      * @throws BaseException
      */
     public PayNotifyRepDTO payNotify(PayNotifyReqDTO payNotifyReqDTO) throws BaseException;
 
     /**
-     * 协议回调
-     *
-     * @param payNotifyReqDTO
-     * @return
-     * @throws BaseException
-     */
-    public PayNotifyRepDTO agreeNotify(PayNotifyReqDTO payNotifyReqDTO) throws BaseException;
-
-    /**
      * 退款
      *
      * @param refundApplyReqDTO
-     * @return
+     * @return RefundApplyRepDTO
      * @throws BaseException
      */
     public RefundApplyRepDTO refundApply(RefundApplyReqDTO refundApplyReqDTO) throws BaseException;
@@ -71,27 +44,26 @@ public interface GateWayService {
      * 退款查询
      *
      * @param refundReqDTO
-     * @return
+     * @return RefundQueryRepDTO
      * @throws BaseException
      */
     public RefundQueryRepDTO refundQuery(RefundQueryReqDTO refundReqDTO) throws BaseException;
 
     /**
-     * 退款回调
+     * 提现申请
      *
-     * @param refundNotifyReqDTO
-     * @return
+     * @param withdrawApplyReqDTO
+     * @return WithdrawApplyRepDTO
      * @throws BaseException
      */
-    public RefundNotifyRepDTO refundNotify(RefundNotifyReqDTO refundNotifyReqDTO) throws BaseException;
+    public WithdrawApplyRepDTO withdrawApply(WithdrawApplyReqDTO withdrawApplyReqDTO) throws BaseException;
 
     /**
-     * 对账
+     * 提现查询
      *
-     * @param checkFileReqDTO
-     * @return
+     * @param withdrawQueryReqDTO
+     * @return WithdrawQueryRepDTO
      * @throws BaseException
      */
-    public CheckFileRepDTO checkFile(CheckFileReqDTO checkFileReqDTO) throws BaseException;
-
+    public WithdrawQueryRepDTO withdrawQuery(WithdrawQueryReqDTO withdrawQueryReqDTO) throws BaseException;
 }

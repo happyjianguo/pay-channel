@@ -65,7 +65,7 @@ public abstract class UrlChannelMsgHandler<REQ extends BaseReq, REP extends Base
 
     @Override
     public REP afterResolveMsg(REQ req, REP rep, ChannelConfig channelConfig) throws ChannelMsgException {
-        rep.setChlRepDateTime(new Date());
+        rep.setChlFinishTime(new Date());
         this.paramMap.remove();
         return rep;
     }

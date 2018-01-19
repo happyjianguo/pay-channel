@@ -35,7 +35,7 @@
     </appender>
 
     <appender name="BUSINESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_PATH}/center.log</File>
+        <File>${LOG_PATH}/channel.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
             <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/business-%d{yyyy-MM-dd}-%i.log.gz
@@ -140,10 +140,10 @@
     <!-- 系统自身日志 -->
     <!-- api-impl层日志 -->
     <appender name="CHANNEL_API_IMPL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_PATH}/center-api-impl.log</File>
+        <File>${LOG_PATH}/channel-api-impl.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/center-api-impl-%d{yyyy-MM-dd}-%i.log.gz
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/channel-api-impl-%d{yyyy-MM-dd}-%i.log.gz
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -190,7 +190,7 @@
     <logger name="com.dream.pay.channel.access" additivity="false">
         <level value="${logger.level}"/>
         <appender-ref ref="TRACK"/>
-        <appender-ref ref="CENTER_API_IMPL"/>
+        <appender-ref ref="CHANNEl_API_IMPL"/>
         <appender-ref ref="ERROR_APPENDER"/>
         <appender-ref ref="ROOT"/>
     </logger>

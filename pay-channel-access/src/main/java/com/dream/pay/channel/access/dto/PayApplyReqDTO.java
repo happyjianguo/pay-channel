@@ -6,18 +6,22 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class PayApplyReqDTO extends BaseReq {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 支付业务单号
-	 */
-	private String bizOrderNo;
-	/**
-	 * 支付业务单号对应支付金额
-	 */
-	private BigDecimal payAmount;
+    /**
+     * 支付业务单号
+     */
+    @NotNull(message = "支付单号不能为空")
+    private String payDetailNo;
+
+    /**
+     * 支付单号对应支付金额
+     */
+    @NotNull(message = "支付金额不能为空")
+    private BigDecimal payAmount;
 }

@@ -16,5 +16,9 @@
             <groupId>com.youzan.platform</groupId>
             <artifactId>bootstrap</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.dream.pay</groupId>
+            <artifactId>pay-common</artifactId>
+        </dependency>
     </dependencies>
 </project>

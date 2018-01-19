@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pay-channel-service</artifactId>
+
     <build>
         <plugins>
             <plugin>
@@ -49,6 +50,11 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dream.pay</groupId>
+            <artifactId>pay-common</artifactId>
         </dependency>
     </dependencies>
 </project>

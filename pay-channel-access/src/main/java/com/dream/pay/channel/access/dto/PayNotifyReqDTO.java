@@ -6,9 +6,16 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class PayNotifyReqDTO extends BaseReq {
-	private static final long serialVersionUID = 1L;
-	private String callBackContent;
-	private boolean isCheckSign;
+
+    /**
+     * 第三方通知报文
+     */
+    private String callBackContent;
+
+    /**
+     * 是否校验签名
+     */
+    private boolean checkSign;
 }

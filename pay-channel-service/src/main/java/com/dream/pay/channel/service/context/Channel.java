@@ -1,8 +1,8 @@
 package com.dream.pay.channel.service.context;
 
-import com.dream.pay.channel.access.enums.PayType;
-import com.dream.pay.channel.service.come.GateWayService;
+import com.dream.pay.channel.service.access.GateWayService;
 import com.dream.pay.channel.service.exception.BaseException;
+import com.dream.pay.enums.PayTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class Channel {
      *
      * @param payType 支付方式
      */
-    public void select(PayType payType) {
+    public void select(PayTool payType) {
         ChannelContext.setPayType(payType);
     }
 

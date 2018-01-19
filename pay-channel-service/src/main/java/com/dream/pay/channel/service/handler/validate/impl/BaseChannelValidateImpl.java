@@ -19,9 +19,6 @@ public class BaseChannelValidateImpl<T extends BaseReq> implements ChannelValida
         if (null == t) {
             throw new ChannelValidateException(ChannelRtnCodeEnum.V10000, TradeStatus.FAIL);
         }
-        if (StringUtils.isEmpty(t.getBizCode())) {
-            throw new ChannelValidateException(ChannelRtnCodeEnum.V10001, TradeStatus.FAIL);
-        }
         if (null == t.getPayType()) {
             throw new ChannelValidateException(ChannelRtnCodeEnum.V10002, TradeStatus.FAIL);
         }

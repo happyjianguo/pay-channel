@@ -3,4 +3,42 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-autowire="byName">
+
+    <import resource="classpath:beans/service-alipay.xml"/>
+
+    <bean id="PAY_APPLY"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"
+                  value="com.dream.pay.channel.access.enums.TradeType.PAY_APPLY" />
+    </bean>
+    <bean id="PAY_QUERY"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"
+                  value="com.dream.pay.channel.access.enums.TradeType.PAY_QUERY" />
+    </bean>
+    <bean id="PAY_NOTIFY"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"
+                  value="com.dream.pay.channel.access.enums.TradeType.PAY_NOTIFY" />
+    </bean>
+    <bean id="REFUND_APPLY"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"
+                  value="com.dream.pay.channel.access.enums.TradeType.REFUND_APPLY" />
+    </bean>
+    <bean id="REFUND_QUERY"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"
+                  value="com.dream.pay.channel.access.enums.TradeType.REFUND_QUERY" />
+    </bean>
+    <bean id="REFUND_NOTIFY"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"
+                  value="com.dream.pay.channel.access.enums.TradeType.REFUND_NOTIFY" />
+    </bean>
+
+    <bean name="baseChannelValidateHandler"
+          class="com.dream.pay.channel.service.handler.validate.impl.BaseChannelValidateImpl"></bean>
+    <bean name="HttpChannelSocketHandler"
+          class="com.dream.pay.channel.service.handler.socket.impl.HttpChannelSocketHandler"></bean>
 </beans>

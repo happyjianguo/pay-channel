@@ -18,6 +18,7 @@
     <properties>
         <spring.version>3.2.13.RELEASE</spring.version>
         <freemarker.version>2.3.20</freemarker.version>
+        <pay-common.version>1.0-SNAPSHOT</pay-common.version>
     </properties>
 
     <dependencyManagement>
@@ -64,6 +65,11 @@
                 <version>1.0.3-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.dream.pay</groupId>
+                <artifactId>pay-common</artifactId>
+                <version>${pay-common.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

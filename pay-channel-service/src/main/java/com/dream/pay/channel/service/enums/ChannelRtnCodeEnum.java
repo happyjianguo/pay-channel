@@ -41,17 +41,8 @@ public enum ChannelRtnCodeEnum {
     /**
      * 通信异常
      */
-    S10000("通信组件异常"),
+    S10000("通信组件异常"),;
 
-    /**
-     * 签约尚未完成
-     */
-    E0001("签约尚未完成，请稍后再试"),
-
-    /**
-     * 签约请求重复
-     */
-    E0002("签约请求重复");
 
     @Getter
     private String message;

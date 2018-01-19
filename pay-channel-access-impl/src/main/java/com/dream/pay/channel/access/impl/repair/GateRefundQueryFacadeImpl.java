@@ -26,24 +26,26 @@ public class GateRefundQueryFacadeImpl implements GateRefundQueryFacade {
 
     @Override
     public RefundQueryRepDTO refundQuery(RefundQueryReqDTO refundQueryReqDTO) {
-        log.info("[退款查询][开始]-[{}]-[{}]-[{}]", refundQueryReqDTO.getPayType().name(), refundQueryReqDTO.getBizRefundNo(),
+        log.info("[退款查询][开始]-[{}]-[{}]-[{}]", refundQueryReqDTO.getPayType().name(), refundQueryReqDTO.getRefundDetailNo(),
                 DateUtil.currentDate());
         channel.select(refundQueryReqDTO.getPayType());
-        RefundQueryRepDTO refundQueryRepDTO = new RefundQueryRepDTO();
+        RefundQueryRepDTO refundQueryRepDTO;
         try {
             refundQueryRepDTO = channel.getGateWayService().refundQuery(refundQueryReqDTO);
-            log.info("[退款查询][结束]-[{}]-[{}]-[{}]-[{}]", refundQueryReqDTO.getBizRefundNo(),
+            log.info("[退款查询][结束]-[{}]-[{}]-[{}]-[{}]", refundQueryReqDTO.getRefundDetailNo(),
                     refundQueryRepDTO.getTradeStatus(), refundQueryRepDTO.getChlRtnMsg(),
-                    refundQueryRepDTO.getChlRepDateTime());
+                    refundQueryRepDTO.getChlFinishTime());
 
         } catch (BaseException e) {
+            refundQueryRepDTO = new RefundQueryRepDTO();
             refundQueryRepDTO.setTradeStatus(TradeStatus.UNKNOW);
             refundQueryRepDTO.setChlRtnCode(e.getErrorCode());
             refundQueryRepDTO.setChlRtnMsg(e.getErrorMsg());
-            refundQueryRepDTO.setBizOrderNo(refundQueryReqDTO.getBizOrderNo());
+            refundQueryRepDTO.setPayDetailNo(refundQueryReqDTO.getPayDetailNo());
+            refundQueryRepDTO.setRefundDetailNo(refundQueryReqDTO.getRefundDetailNo());
             refundQueryRepDTO.setRefundBatchNo(refundQueryReqDTO.getRefundBatchNo());
             log.error("[退款查询][发生异常]-[{}]-[{}]", refundQueryReqDTO.getPayType().name(),
-                    refundQueryReqDTO.getBizRefundNo(), e);
+                    refundQueryReqDTO.getRefundDetailNo(), e);
         }
         return refundQueryRepDTO;
     }

@@ -29,22 +29,22 @@ public class GatePayQueryFacadeImpl implements GatePayQueryFacade {
 
     @Override
     public PayQueryRepDTO payQuery(PayQueryReqDTO payQueryReqDTO) {
-        log.info("[支付查询][开始]-[{}]-[{}]-[{}]", payQueryReqDTO.getPayType().name(), payQueryReqDTO.getBizOrderNo(),
+        log.info("[支付查询][开始]-[{}]-[{}]-[{}]", payQueryReqDTO.getPayType().name(), payQueryReqDTO.getPayDetailNo(),
                 DateUtil.currentDate());
         channel.select(payQueryReqDTO.getPayType());
-        PayQueryRepDTO payQueryRepDTO = new PayQueryRepDTO();
+        PayQueryRepDTO payQueryRepDTO;
         try {
             payQueryRepDTO = channel.getGateWayService().payQuery(payQueryReqDTO);
-            log.info("[支付查询][结束]-[{}]-[{}]-[{}]-[{}]", payQueryRepDTO.getBizOrderNo(), payQueryRepDTO.getTradeStatus(),
-                    payQueryRepDTO.getChlRtnMsg(), payQueryRepDTO.getChlRepDateTime());
+            log.info("[支付查询][结束]-[{}]-[{}]-[{}]-[{}]", payQueryRepDTO.getPayDetailNo(), payQueryRepDTO.getTradeStatus(),
+                    payQueryRepDTO.getChlRtnMsg(), payQueryRepDTO.getChlFinishTime());
         } catch (BaseException e) {
+            payQueryRepDTO = new PayQueryRepDTO();
             payQueryRepDTO.setTradeStatus(TradeStatus.UNKNOW);
             payQueryRepDTO.setChlRtnCode(e.getErrorCode());
             payQueryRepDTO.setChlRtnMsg(e.getErrorMsg());
-            payQueryRepDTO.setBizOrderNo(payQueryReqDTO.getBizOrderNo());
-            log.error("[支付查询][发生异常]-[{}]-[{}]", payQueryReqDTO.getPayType().name(), payQueryReqDTO.getBizOrderNo(), e);
+            payQueryRepDTO.setPayDetailNo(payQueryReqDTO.getPayDetailNo());
+            log.error("[支付查询][发生异常]-[{}]-[{}]", payQueryReqDTO.getPayType().name(), payQueryReqDTO.getPayDetailNo(), e);
         }
         return payQueryRepDTO;
     }
-
 }

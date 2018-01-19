@@ -6,45 +6,35 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class RefundQueryReqDTO extends BaseReq {
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 退款批次号
-	 */
-	private String refundBatchNo;
-	/**
-	 * 退款业务订单号
-	 */
-	private String bizRefundNo;
-	/**
-	 * 支付业务订单号
-	 */
-	private String bizOrderNo;
-	/**
-	 * 第三方支付订单号
-	 */
-	private String bankOrderNo;
-	/**
-	 * 第三方退款订单号
-	 */
-	private String bankRefundNo;
-	/**
-	 * 开始时间
-	 */
-	private Date startDate;
-	/**
-	 * 结束时间
-	 */
-	private Date endDate;
-	/**
-	 * 页码
-	 */
-	private String pageNo;
-	/**
-	 * 订单交易日期
-	 */
-	private Date bizOrderDate;
+    /**
+     * 退款批次号
+     */
+    private String refundBatchNo;
+
+    /**
+     * 原业务线订单号
+     */
+    private String payDetailNo;
+
+    /**
+     * 退款单号
+     */
+    @NotNull(message = "退款单号不能为空")
+    private String refundDetailNo;
+
+    /**
+     * 原银行订单号
+     */
+    private String bankPayDetailNo;
+
+    /**
+     * 第三方退款订单号
+     */
+    private String bankRefundDetailNo;
 }

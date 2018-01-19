@@ -1,10 +1,10 @@
 package com.dream.pay.channel.service.context;
 
-import com.dream.pay.channel.access.enums.PayType;
 import com.dream.pay.channel.access.enums.TradeType;
-import com.dream.pay.channel.service.come.GateWayService;
+import com.dream.pay.channel.service.access.GateWayService;
 import com.dream.pay.channel.service.exception.BaseException;
 import com.dream.pay.channel.service.handler.config.ChannelConfig;
+import com.dream.pay.enums.PayTool;
 import com.google.common.collect.Maps;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -24,9 +24,9 @@ public class ChannelContext implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    private final static ThreadLocal<PayType> PAYTYPE_HOLDER = new ThreadLocal<PayType>();
+    private final static ThreadLocal<PayTool> PAYTYPE_HOLDER = new ThreadLocal<PayTool>();
     private final static ThreadLocal<TradeType> TRADETYPE_HOLDER = new ThreadLocal<TradeType>();
-    private final static Map<PayType, ChannelConfig> PAYTYPE_CHANNEL_CONFIG_MAP = Maps.newHashMap();
+    private final static Map<PayTool, ChannelConfig> PAYTYPE_CHANNEL_CONFIG_MAP = Maps.newHashMap();
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
@@ -38,8 +38,8 @@ public class ChannelContext implements ApplicationContextAware {
      * @return
      * @throws BaseException
      */
-    public static PayType getPayType() throws BaseException {
-        PayType payType = PAYTYPE_HOLDER.get();
+    public static PayTool getPayType() throws BaseException {
+        PayTool payType = PAYTYPE_HOLDER.get();
         if (payType == null) {
             throw new BaseException();
         }
@@ -65,7 +65,7 @@ public class ChannelContext implements ApplicationContextAware {
      *
      * @param payType
      */
-    public static void setPayType(PayType payType) {
+    public static void setPayType(PayTool payType) {
         PAYTYPE_HOLDER.set(payType);
     }
 
@@ -85,7 +85,7 @@ public class ChannelContext implements ApplicationContextAware {
      * @throws BaseException
      */
     public static ChannelConfig getConfig() throws BaseException {
-        PayType payType = getPayType();
+        PayTool payType = getPayType();
         return PAYTYPE_CHANNEL_CONFIG_MAP.get(payType);
     }
 
@@ -96,7 +96,7 @@ public class ChannelContext implements ApplicationContextAware {
      * @throws BaseException
      */
     GateWayService getGateWayService() throws BaseException {
-        PayType payType = getPayType();
+        PayTool payType = getPayType();
         GateWayService channel = applicationContext.getBean(payType.name().toUpperCase(), GateWayService.class);
         return channel;
     }

@@ -12,16 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dream.pay.channel.access.dto.PayNotifyRepDTO;
 import com.dream.pay.channel.access.dto.PayNotifyReqDTO;
-import com.dream.pay.channel.access.enums.PayType;
 import com.dream.pay.channel.access.enums.TradeStatus;
 import com.dream.pay.channel.access.notify.AcceptPayNotifyFacade;
 import com.dream.pay.channel.access.notify.GatePayNotifyFacade;
-import com.dream.pay.channel.service.enums.BizLine;
+import com.dream.pay.enums.PartnerIdEnum;
+import com.dream.pay.enums.PayTool;
 import com.dream.pay.utils.ParamUtil;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,35 +29,36 @@ public class AcceptPayNotifyFacadeImpl implements AcceptPayNotifyFacade {
 
     @Resource
     private GatePayNotifyFacade gatePayNotifyFacade;
-    @Autowired
-    private NotifyServiceFactory payNotifyServiceFactory;
 
     @Override
     public void payNotify(String bizLine, String payType, HttpServletRequest request) {
-        PayType payTypeEnum = PayType.valueOf(payType.toUpperCase());
-        Map<String, String> stringMap = null;
+        PayTool payTypeEnum = PayTool.valueOf(payType.toUpperCase());
+
         if (null == payTypeEnum) {
             log.error("接收支付通知接口，支付方式输入不合法[{}]", payType);
             return;
         }
-        BizLine bizLineEnum = BizLine.valueOf(bizLine.toUpperCase());
-        if (null == bizLineEnum) {
+        PartnerIdEnum partnerIdEnum = PartnerIdEnum.valueOf(bizLine.toUpperCase());
+        if (null == partnerIdEnum) {
             log.error("接收支付通知接口，业务线输入不合法[{}]", bizLine);
             return;
         }
         PayNotifyReqDTO payNotifyReqDTO = new PayNotifyReqDTO();
         payNotifyReqDTO.setPayType(payTypeEnum);
-        payNotifyReqDTO.setBizCode(bizLine);
+        payNotifyReqDTO.setPartnerId(partnerIdEnum);
         payNotifyReqDTO.setReqDateTime(new Date());
+        payNotifyReqDTO.setCheckSign(true);
+
+        Map<String, String> stringMap;
         try {
-            log.info("接收通知付通接口的请求url参数信息[{}]", request.getParameterMap());
+            log.info("接收支付通知接口,请求url参数信息[{}]", request.getParameterMap());
             stringMap = ParamUtil.convertParamMap(request.getParameterMap(), true);// 参数转map
             StringBuffer stringBuffer = new StringBuffer();
             for (Map.Entry<String, String> entry : stringMap.entrySet()) {
                 stringBuffer.append("([" + entry.getKey() + "]=[" + entry.getValue() + "])");
             }
             log.info("接收支付通知接口,解析参数成MAP[{}]", stringBuffer.toString());
-            payNotifyReqDTO.setMap(stringMap);// 适用于支付宝，支付宝无线，快钱
+            payNotifyReqDTO.setExt(stringMap);// 适用于支付宝，支付宝无线，快钱
         } catch (Exception e) {
             log.error("接收支付通知接口，解析参数成MAP出错", e);
             return;
@@ -72,74 +71,42 @@ public class AcceptPayNotifyFacadeImpl implements AcceptPayNotifyFacade {
             log.error("接收支付通知接口，解析参数成字符出错", e);
             return;
         }
-        payNotifyReqDTO.setCheckSign(true);
-        boolean isSend = false;
+
         PayNotifyRepDTO payNotifyRepDTO = gatePayNotifyFacade.payNotify(payNotifyReqDTO);
-        payNotifyRepDTO.setPayType(payTypeEnum.getValue());
+        payNotifyRepDTO.setPayType(payTypeEnum);
+
         if (TradeStatus.SUCCESS.equals(payNotifyRepDTO.getTradeStatus())) {
-            if (payNotifyRepDTO.isNoNoticeBusinessSystem()) { // 不需要进行业务系统的到账通知，直接给第三方支付回应报文
-                respMsg(payNotifyRepDTO.getPayType(), null);
-            } else {
-                this.validateParam(payNotifyRepDTO);// 渠道返回后解析参数校验非空性
-                isSend = payNotifyServiceFactory.selectNotifyService(bizLine).handlePayNotify(payNotifyRepDTO);
-            }
-        } else {
-            if (BizLine.EXCHANGE.toString().equals(bizLine)) {// 如果是兑换的交易，需要通知兑换业务系统
-                isSend = payNotifyServiceFactory.selectNotifyService(bizLine).handlePayNotify(payNotifyRepDTO);
-            }
-            log.error("通知[{}]处理渠道返状态不是成功,是[{}]", payNotifyRepDTO.getBizOrderNo(), payNotifyRepDTO.getTradeStatus());
-        }
-        if (isSend) {// 通知消息队列成功，给第三方通道返回成功
+            this.validateParam(payNotifyRepDTO);// 渠道返回后解析参数校验非空性
+            //TODO   发送NSQ消息，收单监听
+            //发送NSQ消息，收单支付成功监听
+
+            //返回第三方接受通知成功
             respMsg(payNotifyRepDTO.getPayType(), payNotifyRepDTO);
+
+        } else {
+            log.error("通知[{}]处理渠道返状态不是成功,是[{}]", payNotifyRepDTO.getPayDetailNo(), payNotifyRepDTO.getTradeStatus());
         }
 
     }
 
-    private void respMsg(Integer payType, PayNotifyRepDTO payNotifyRepDTO) {
+    private void respMsg(PayTool payType, PayNotifyRepDTO payNotifyRepDTO) {
         HttpServletResponse httpServletResponse = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
         String responseMsg = "";
         try {
-            switch (payType.intValue()) {
-                case 51:// 支付宝扫码
-                case 79:// 支付宝无线
-                case 11:// 支付宝APP
-                case 44:// 财付通
-                case 92:// 支付宝分账
-                case 96:// 支付宝分账APP
-                case 95:// 支付宝分账WAP
-                case 196:// 支付宝分账APP
-                case 195:// 支付宝分账WAP
-                case 98:// 支付B2B
+            switch (payType) {
+                case ALIPAY_BARCODE://支付宝条码
+                case ALIPAY_WAP:// 支付宝无线
+                case ALIPAY_APP:// 支付宝APP
+                case ALIPAY_NATIVE://支付宝扫码
                     responseMsg = "success";
                     writeResponse(httpServletResponse, responseMsg);
                     break;
-                case 48:// 快钱工行
-                case 25:// 首信支付
-                    responseMsg = "sent";
-                    writeResponse(httpServletResponse, responseMsg);
-                    break;
-                case 4:// 招行支付
-                case 197:// 招行一网通手机支付
-                    responseMsg = "OK";
-                    writeResponse(httpServletResponse, responseMsg);
-                    break;
-                case 97:// 19pay
-                    responseMsg = "Y";
-                    writeResponse(httpServletResponse, responseMsg);
-                    break;
-                case 55:// 银联在线
-                    responseMsg = "OK";
-                    writeResponse(httpServletResponse, responseMsg);
-                    break;
-                case 53:// 和包支付
-                case 81:// 和包虚拟支付
-                    responseMsg = "SUCCESS";
-                    writeResponse(httpServletResponse, responseMsg);
-                    break;
-                case 84:// 微信扫码
-                case 85:// 微信公帐
-                case 86: // 微信wap
-                case 10:// 微信app
+                case WX_BARCODE:// 微信条码
+                case WX_NATIVE:// 微信扫码
+                case WX_JS:// 微信公帐
+                case WX_H5: // 微信wap
+                case WX_APP:// 微信app
+                case WX_APPLET://w微信小程序
                     responseMsg = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
                     httpServletResponse.setContentType("text/xml");
                     BufferedOutputStream out = new BufferedOutputStream(httpServletResponse.getOutputStream());
@@ -150,9 +117,9 @@ public class AcceptPayNotifyFacadeImpl implements AcceptPayNotifyFacade {
                 default:
                     break;
             }
-            log.info("接受[{}]通知后,返回信息[{}]成功", payType.intValue(), responseMsg);
+            log.info("接受[{}]通知后,返回信息[{}]成功", payType, responseMsg);
         } catch (Exception e) {
-            log.error("接受[{}]通知后,返回信息[{}]出现异常", payType.intValue(), responseMsg, e);
+            log.error("接受[{}]通知后,返回信息[{}]出现异常", payType, responseMsg, e);
         }
     }
 
@@ -177,11 +144,11 @@ public class AcceptPayNotifyFacadeImpl implements AcceptPayNotifyFacade {
      * @param payNotifyRepDTO
      */
     private void validateParam(PayNotifyRepDTO payNotifyRepDTO) {
-        Assert.notNull(payNotifyRepDTO.getBizOrderNo(), "bizOrderNo不可为空");
-        // Assert.notNull(payNotifyRepDTO.getPlatOrderNo(), "platOrderNo不可为空");
-        // 银联在线没有返回交易单号
-        Assert.notNull(payNotifyRepDTO.getBankFinshDateTime(), "bankFinshDateTime不可为空");
-        Assert.notNull(payNotifyRepDTO.getChlRtnMsg(), "chlRtnMsg不可为空");
-        Assert.notNull(payNotifyRepDTO.getPayAmount(), "payAmount不可为空");
+        Assert.notNull(payNotifyRepDTO.getTradeStatus(), "渠道返回状态不可为空");
+        Assert.notNull(payNotifyRepDTO.getChlRtnCode(), "渠道返回码不可为空");
+        Assert.notNull(payNotifyRepDTO.getChlRtnMsg(), "渠道返回信息不可为空");
+        Assert.notNull(payNotifyRepDTO.getPayDetailNo(), "支付明细号不可为空");
+        Assert.notNull(payNotifyRepDTO.getPayAmount(), "支付金额不可为空");
+        Assert.notNull(payNotifyRepDTO.getBankFinishTime(), "银行完成时间不可为空");
     }
 }
