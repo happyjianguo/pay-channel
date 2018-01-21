@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 分布式事务api服务, defaultDataSource为业务方数据源 -->
+    <bean id="transactionActivityService" class="com.youzan.dts.client.api.impl.TransactionActivityServiceImpl">
+        <property name="dataSource" ref="defaultDataSource"/>
+        <property name="dtsMqProducer" ref="dtsTransactionActionProducer"/>
+    </bean>
+
+    <!-- dts消息发送器 -->
+    <bean id="dtsTransactionActionProducer" class="com.youzan.dts.client.mq.principal.DtsTransactionActionProducer">
+        <property name="lookupAddresses" value="${nsq.dts.producer.host}:${nsq.dts.producer.port}"/>
+    </bean>
+
+    <!-- dts消息回执消费端，必选(保证事务生命周期完整性，新的业务接入需要申请新的回执topic) -->
+    <bean id="dtsCallbackConsumer" class="com.youzan.dts.client.mq.principal.DtsCallbackConsumer">
+        <property name="transactionActivityService" ref="transactionActivityService"/>
+        <property name="lookupAddresses" value="${nsq.dts.consumer.host}:${nsq.dts.consumer.port}"/>
+        <property name="topic" value="${nsq.dts.consumer.topic}"/>
+        <property name="channel" value="${nsq.dts.consumer.channel}"/>
+    </bean>
+
+    <!-- 接入事务恢复器  -->
+    <dubbo:service protocol="dubbo,rest" registry="zookeeper" retries="0" cluster="failfast"
+                   interface="com.youzan.dts.server.facade.TransactionActivityRecoverService" ref="transactionActivityRecoverService" timeout="2000"/>
+
+    <bean id="transactionActivityRecoverService" class="com.youzan.dts.server.facade.impl.TransactionActivityRecoverServiceImpl"/>
+
+    <bean id="quartzRunner" class="com.youzan.dts.server.task.quartz.QuartzRunner">
+        <constructor-arg index="0" ref="transactionActivityService"/>
+    </bean>
+
+</beans>

@@ -56,5 +56,15 @@
             <groupId>com.dream.pay</groupId>
             <artifactId>pay-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.youzan.dts</groupId>
+            <artifactId>dts-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.youzan</groupId>
+            <artifactId>NSQ-Client</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

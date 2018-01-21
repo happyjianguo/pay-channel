@@ -15,6 +15,7 @@ import com.dream.pay.channel.access.dto.PayNotifyReqDTO;
 import com.dream.pay.channel.access.enums.TradeStatus;
 import com.dream.pay.channel.access.notify.AcceptPayNotifyFacade;
 import com.dream.pay.channel.access.notify.GatePayNotifyFacade;
+import com.dream.pay.channel.service.component.PayNsqMessagePoser;
 import com.dream.pay.enums.PartnerIdEnum;
 import com.dream.pay.enums.PayTool;
 import com.dream.pay.utils.ParamUtil;
@@ -25,7 +26,7 @@ import org.springframework.util.Assert;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AcceptPayNotifyFacadeImpl implements AcceptPayNotifyFacade {
+public class AcceptPayNotifyFacadeImpl extends PayNsqMessagePoser implements AcceptPayNotifyFacade {
 
     @Resource
     private GatePayNotifyFacade gatePayNotifyFacade;
@@ -77,9 +78,9 @@ public class AcceptPayNotifyFacadeImpl implements AcceptPayNotifyFacade {
 
         if (TradeStatus.SUCCESS.equals(payNotifyRepDTO.getTradeStatus())) {
             this.validateParam(payNotifyRepDTO);// 渠道返回后解析参数校验非空性
-            //TODO   发送NSQ消息，收单监听
+            //TODO
             //发送NSQ消息，收单支付成功监听
-
+            super.sendNsqMessage(payNotifyRepDTO);
             //返回第三方接受通知成功
             respMsg(payNotifyRepDTO.getPayType(), payNotifyRepDTO);
 

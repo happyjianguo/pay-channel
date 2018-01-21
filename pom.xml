@@ -19,6 +19,10 @@
         <spring.version>3.2.13.RELEASE</spring.version>
         <freemarker.version>2.3.20</freemarker.version>
         <pay-common.version>1.0-SNAPSHOT</pay-common.version>
+
+        <bootstrap.version>3.1.2.4-RELEASE</bootstrap.version>
+        <dts.version>2.0.8-service-chain-SNAPSHOT</dts.version>
+        <nsq-client.version>2.4.1.1-RELEASE</nsq-client.version>
     </properties>
 
     <dependencyManagement>
@@ -31,7 +35,7 @@
             <dependency>
                 <groupId>com.youzan.platform</groupId>
                 <artifactId>bootstrap</artifactId>
-                <version>3.0.5-SNAPSHOT</version>
+                <version>${bootstrap.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
@@ -69,6 +73,17 @@
                 <groupId>com.dream.pay</groupId>
                 <artifactId>pay-common</artifactId>
                 <version>${pay-common.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.youzan.dts</groupId>
+                <artifactId>dts-server</artifactId>
+                <version>${dts.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.youzan</groupId>
+                <artifactId>NSQ-Client</artifactId>
+                <version>${nsq-client.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
