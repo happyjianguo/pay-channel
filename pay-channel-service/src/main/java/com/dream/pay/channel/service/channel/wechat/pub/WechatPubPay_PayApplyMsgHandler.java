@@ -12,6 +12,8 @@ import com.dream.pay.channel.service.core.handler.config.ChannelConfig;
 import com.dream.pay.channel.service.core.handler.msg.impl.XMLChannelMsgHandler;
 import com.dream.pay.channel.service.enums.ChannelRtnCodeEnum;
 import com.dream.pay.channel.service.enums.SignType;
+import com.dream.pay.enums.BizChannelEnum;
+import com.dream.pay.enums.PayTool;
 import com.dream.pay.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -60,6 +62,7 @@ public class WechatPubPay_PayApplyMsgHandler extends XMLChannelMsgHandler<PayApp
             } else {
                 throw new ChannelMsgException(ChannelRtnCodeEnum.M10000, TradeStatus.FAIL);
             }
+            //TODO
             String sign = WechatpayUtil.createSign(super.getParamMap(),
                     SignType.valueOf(StringUtils.trim(config.getSignType())),
                     DESUtil.decryptModeBase64(config.getSignKey()),
@@ -79,6 +82,8 @@ public class WechatPubPay_PayApplyMsgHandler extends XMLChannelMsgHandler<PayApp
             throws ChannelMsgException {
         Wechatpay_ChannelConfig config = (Wechatpay_ChannelConfig) channelConfig;
         PayApplyRepDTO payApplyRepDTO = new PayApplyRepDTO();
+        payApplyRepDTO.setPayType(PayTool.WX_JS);
+        payApplyRepDTO.setBizChannel(BizChannelEnum.WX);
         try {
             String repString = StringUtils.toString(rtnMsg, StringUtils.trim(config.getCharset()));
             Map<String, Object> resultMap = XmlUtil.fromXml(repString);
@@ -104,6 +109,8 @@ public class WechatPubPay_PayApplyMsgHandler extends XMLChannelMsgHandler<PayApp
             }
             String resResultCode = (String) resultMap.get("result_code");
             if (resResultCode.equals("SUCCESS")) {
+                payApplyRepDTO.setPayDetailNo(req.getPayDetailNo());
+                payApplyRepDTO.setPayAmount(req.getPayAmount());
                 payApplyRepDTO.setChlRtnCode(TradeStatus.SUCCESS.name());
                 payApplyRepDTO.setChlRtnMsg(TradeStatus.SUCCESS.getValue());
                 payApplyRepDTO.setTradeStatus(TradeStatus.SUCCESS);

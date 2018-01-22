@@ -3,6 +3,7 @@ package com.dream.pay.channel.service.core.handler.msg.impl;
 import com.dream.pay.channel.access.dto.BaseRep;
 import com.dream.pay.channel.access.dto.BaseReq;
 import com.dream.pay.channel.access.enums.TradeStatus;
+import com.dream.pay.channel.service.channel.wechat.WechatpayUtil;
 import com.dream.pay.channel.service.enums.ChannelRtnCodeEnum;
 import com.dream.pay.channel.service.core.exception.ChannelMsgException;
 import com.dream.pay.channel.service.core.handler.config.ChannelConfig;
@@ -34,8 +35,7 @@ public abstract class XMLChannelMsgHandler<REQ extends BaseReq, REP extends Base
 
     @Override
     public byte[] builderMsg(REQ t, ChannelConfig channelConfig) throws ChannelMsgException {
-        String reqString = "";//TODO
-        //String reqString = WechatpayUtil.mapToXml(this.getParamMap());
+        String reqString = WechatpayUtil.mapToXml(this.getParamMap());
         byte[] result = null;
         try {
             result = reqString.getBytes(channelConfig.getCharset());

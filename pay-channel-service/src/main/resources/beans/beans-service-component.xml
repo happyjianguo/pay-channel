@@ -4,8 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-autowire="byName">
 
-    <import resource="classpath:beans/service-alipay.xml"/>
-
     <bean id="PAY_APPLY"
           class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
         <property name="staticField"

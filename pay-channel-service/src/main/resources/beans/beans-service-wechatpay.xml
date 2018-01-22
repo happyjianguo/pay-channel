@@ -117,6 +117,8 @@
         <property name="refundApplyUrl" value="${wechatPay.refundApplyUrl}"/>
         <property name="payNotifyUrl" value="${wechatPay.pay_notify_url}"/>
         <property name="productName" value="${wechatPay.productName}"/>
+        <property name="signType" value="${wechatPay.signType}"/>
+        <property name="charset" value="${wechatPay.charset}"/>
     </bean>
 
     <bean name="wechatSocketHandler"
