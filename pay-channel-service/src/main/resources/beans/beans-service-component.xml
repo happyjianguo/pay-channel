@@ -38,7 +38,7 @@
     </bean>
 
     <bean name="baseChannelValidateHandler"
-          class="com.dream.pay.channel.service.handler.validate.impl.BaseChannelValidateImpl"></bean>
+          class="com.dream.pay.channel.service.core.handler.validate.impl.BaseChannelValidateImpl"></bean>
     <bean name="HttpChannelSocketHandler"
-          class="com.dream.pay.channel.service.handler.socket.impl.HttpChannelSocketHandler"></bean>
+          class="com.dream.pay.channel.service.core.handler.socket.impl.HttpChannelSocketHandler"></bean>
 </beans>

@@ -4,12 +4,11 @@ import com.dream.pay.channel.access.apply.GateRefundApplyFacade;
 import com.dream.pay.channel.access.dto.RefundApplyRepDTO;
 import com.dream.pay.channel.access.dto.RefundApplyReqDTO;
 import com.dream.pay.channel.access.enums.TradeStatus;
-import com.dream.pay.channel.service.context.Channel;
-import com.dream.pay.channel.service.exception.BaseException;
+import com.dream.pay.channel.service.core.context.Channel;
+import com.dream.pay.channel.service.core.exception.BaseException;
 import com.youzan.platform.util.lang.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 支付渠道服务

@@ -1,7 +1,7 @@
 package com.dream.pay.channel.service.access;
 
 import com.dream.pay.channel.access.dto.*;
-import com.dream.pay.channel.service.exception.BaseException;
+import com.dream.pay.channel.service.core.exception.BaseException;
 
 public interface GateWayService {
     /**

@@ -3,14 +3,14 @@ package com.dream.pay.channel.service.channel.alipay.std;
 import com.dream.pay.channel.access.dto.PayApplyRepDTO;
 import com.dream.pay.channel.access.dto.PayApplyReqDTO;
 import com.dream.pay.channel.access.enums.TradeStatus;
+import com.dream.pay.channel.service.channel.alipay.AlipayConfigContants;
 import com.dream.pay.channel.service.channel.alipay.AlipayUtil;
-import com.dream.pay.channel.service.channel.alipay.common.AlipayConfigContants;
-import com.dream.pay.channel.service.channel.alipay.common.Alipay_ChannelConfig;
+import com.dream.pay.channel.service.channel.alipay.Alipay_ChannelConfig;
+import com.dream.pay.channel.service.core.exception.ChannelMsgException;
+import com.dream.pay.channel.service.core.handler.config.ChannelConfig;
+import com.dream.pay.channel.service.core.handler.msg.impl.FreemarkChannelMsgHandler;
 import com.dream.pay.channel.service.enums.ChannelRtnCodeEnum;
 import com.dream.pay.channel.service.enums.SignType;
-import com.dream.pay.channel.service.exception.ChannelMsgException;
-import com.dream.pay.channel.service.handler.config.ChannelConfig;
-import com.dream.pay.channel.service.handler.msg.impl.FreemarkChannelMsgHandler;
 import com.dream.pay.utils.DESUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +51,7 @@ public class AlipayStd_PayApplyMsgHandler extends FreemarkChannelMsgHandler<PayA
             super.setParam("body", req.getPartnerId().getCode());// 传递各业务线的编码
             super.setParam("subject", AlipayConfigContants.SUBJECT_VALUE);// 商品名称
             super.setParam("out_trade_no", StringUtils.trim(req.getPayDetailNo())); // 商户订单号，商户网站订单系统中唯一订单号，必填
-            DecimalFormat format = new DecimalFormat("#0.00");
+            DecimalFormat format = new DecimalFormat(AlipayConfigContants.DECIMAL_FORMAT);
             super.setParam("total_fee", format.format(req.getPayAmount()));// 订单金额以元为单位
             // 添加签名等信息
             super.setParam("_input_charset", StringUtils.trim(config.getCharset()));// 参数编码字符集
@@ -83,7 +83,7 @@ public class AlipayStd_PayApplyMsgHandler extends FreemarkChannelMsgHandler<PayA
             }
             payApplyRepDTO.setRepContent(repString); // 支付写出的ftl
             payApplyRepDTO.setPayDetailNo(req.getPayDetailNo());
-            DecimalFormat format = new DecimalFormat("#0.00");
+            DecimalFormat format = new DecimalFormat(AlipayConfigContants.DECIMAL_FORMAT);
             payApplyRepDTO.setPayAmount(new BigDecimal(format.format(req.getPayAmount())));
         } catch (Exception e) {
             log.error("[支付宝]-[支付申请]-[报文解析]-[出现异常]", e);

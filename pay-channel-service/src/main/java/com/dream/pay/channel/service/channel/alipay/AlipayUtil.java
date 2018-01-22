@@ -3,8 +3,8 @@ package com.dream.pay.channel.service.channel.alipay;
 import com.dream.pay.channel.access.enums.TradeStatus;
 import com.dream.pay.channel.service.enums.SignType;
 import com.dream.pay.other.MapFilter;
-import com.dream.pay.utils.*;
 import com.dream.pay.utils.Base64;
+import com.dream.pay.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -22,9 +22,6 @@ import java.util.*;
  */
 @Slf4j
 public class AlipayUtil {
-    public static final String productCode = "NEW_OVERSEAS_SELLER";// 用来区分支付宝海外购是哪种业务类型的下单。
-    public static final String productCodeWap = "NEW_WAP_OVERSEAS_SELLER";// 用来区分支付宝海外购WAP版是哪种业务类型的下单。
-    public static final String refundCharset = PropUtil.get("ALIPAY.charset");// 退款统一使用的编码
 
     /**
      * 生成签名
@@ -92,7 +89,7 @@ public class AlipayUtil {
      * @param paramMap
      * @return
      */
-    public static String createSignWap(Map<String, String> paramMap, String signKey, Charset charset) {
+    public static String createWapSign(Map<String, String> paramMap, String signKey, Charset charset) {
         StringBuilder signString = new StringBuilder();
         signString.append("service=" + paramMap.get("service"));
         signString.append("&v=" + paramMap.get("v"));
@@ -107,58 +104,6 @@ public class AlipayUtil {
         }
     }
 
-    public static String toTradeDesc(String msg) {
-        // 正向支付
-        if ("TRADE_SUCCESS".equals(msg)) {
-            return "交易成功";
-        } else if ("TRADE_FINISHED".equals(msg)) {
-            return "交易成功且结束";
-        } else if ("TRADE_CLOSED".equals(msg)) {
-            return "交易关闭，未支付或已退款";
-        } else if ("WAIT_BUYER_PAY".equals(msg)) {
-            return "交易创建，等待买家付款";
-        } else if ("TRADE_PENDING".equals(msg)) {
-            return "等待卖家收款";
-        }
-        if ("T".equals(msg)) {
-            return "退款受理成功";
-        } else if ("P".equals(msg)) {
-            return "退款受理处理中";
-        } else if ("F".equals(msg)) {
-            return "退款受理失败";
-        }
-        // 未对应
-        else {
-            return "状态未知";
-        }
-    }
-
-    public static TradeStatus toTradeStatusEnum(String msg) {
-        // 正向支付
-        if ("TRADE_SUCCESS".equals(msg)) {
-            return TradeStatus.SUCCESS;
-        } else if ("TRADE_FINISHED".equals(msg)) {
-            return TradeStatus.SUCCESS;
-        } else if ("TRADE_CLOSED".equals(msg)) {
-            return TradeStatus.FAIL;
-        } else if ("WAIT_BUYER_PAY".equals(msg)) {
-            return TradeStatus.PROCESS;
-        } else if ("TRADE_PENDING".equals(msg)) {
-            return TradeStatus.PROCESS;
-        }
-        // 逆向退款申请
-        if ("T".equals(msg)) {
-            return TradeStatus.PROCESS;
-        } else if ("P".equals(msg)) {
-            return TradeStatus.PROCESS;
-        } else if ("F".equals(msg)) {
-            return TradeStatus.FAIL;
-        }
-        // 未对应
-        else {
-            return TradeStatus.UNKNOW;
-        }
-    }
 
     /**
      * 将返回的xml字符串转换为Map对象
@@ -302,5 +247,58 @@ public class AlipayUtil {
         resolveMap.put("gmt_refund_pay", responseMap.get("gmt_refund_pay"));
         resolveMap.put("refund_fee", responseMap.get("refund_fee"));
         return resolveMap;
+    }
+
+    public static String toTradeDesc(String msg) {
+        // 正向支付
+        if ("TRADE_SUCCESS".equals(msg)) {
+            return "交易成功";
+        } else if ("TRADE_FINISHED".equals(msg)) {
+            return "交易成功且结束";
+        } else if ("TRADE_CLOSED".equals(msg)) {
+            return "交易关闭，未支付或已退款";
+        } else if ("WAIT_BUYER_PAY".equals(msg)) {
+            return "交易创建，等待买家付款";
+        } else if ("TRADE_PENDING".equals(msg)) {
+            return "等待卖家收款";
+        }
+        if ("T".equals(msg)) {
+            return "退款受理成功";
+        } else if ("P".equals(msg)) {
+            return "退款受理处理中";
+        } else if ("F".equals(msg)) {
+            return "退款受理失败";
+        }
+        // 未对应
+        else {
+            return "状态未知";
+        }
+    }
+
+    public static TradeStatus toTradeStatusEnum(String msg) {
+        // 正向支付
+        if ("TRADE_SUCCESS".equals(msg)) {
+            return TradeStatus.SUCCESS;
+        } else if ("TRADE_FINISHED".equals(msg)) {
+            return TradeStatus.SUCCESS;
+        } else if ("TRADE_CLOSED".equals(msg)) {
+            return TradeStatus.FAIL;
+        } else if ("WAIT_BUYER_PAY".equals(msg)) {
+            return TradeStatus.PROCESS;
+        } else if ("TRADE_PENDING".equals(msg)) {
+            return TradeStatus.PROCESS;
+        }
+        // 逆向退款申请
+        if ("T".equals(msg)) {
+            return TradeStatus.PROCESS;
+        } else if ("P".equals(msg)) {
+            return TradeStatus.PROCESS;
+        } else if ("F".equals(msg)) {
+            return TradeStatus.FAIL;
+        }
+        // 未对应
+        else {
+            return TradeStatus.UNKNOW;
+        }
     }
 }

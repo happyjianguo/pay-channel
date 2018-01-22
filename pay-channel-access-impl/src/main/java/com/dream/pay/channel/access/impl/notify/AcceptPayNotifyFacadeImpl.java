@@ -15,7 +15,7 @@ import com.dream.pay.channel.access.dto.PayNotifyReqDTO;
 import com.dream.pay.channel.access.enums.TradeStatus;
 import com.dream.pay.channel.access.notify.AcceptPayNotifyFacade;
 import com.dream.pay.channel.access.notify.GatePayNotifyFacade;
-import com.dream.pay.channel.service.component.PayNsqMessagePoser;
+import com.dream.pay.channel.service.nsq.PayNsqMessagePoser;
 import com.dream.pay.enums.PartnerIdEnum;
 import com.dream.pay.enums.PayTool;
 import com.dream.pay.utils.ParamUtil;

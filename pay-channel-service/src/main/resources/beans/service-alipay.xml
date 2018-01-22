@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:cache="http://www.springframework.org/schema/cache"
-       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context.xsd"
+                        http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-lazy-init="true" default-autowire="byName">
     <bean id="ALIPAY_NATIVE"
-          class="com.dream.pay.channel.service.channel.alipay.common.Alipay_ChannelServiceImpl">
+          class="com.dream.pay.channel.service.channel.alipay.Alipay_ChannelServiceImpl">
         <property name="channelValidateHandler" ref="baseChannelValidateHandler"></property>
         <property name="channelMsgHandler">
             <map>
@@ -21,13 +16,13 @@
                     <bean class="com.dream.pay.channel.service.channel.alipay.std.AlipayStd_PayNotifyMsgHandler"/>
                 </entry>
                 <entry key-ref="PAY_QUERY">
-                    <bean class="com.dream.pay.channel.service.channel.alipay.common.Alipay_PayQueryMsgHandler"/>
+                    <bean class="com.dream.pay.channel.service.channel.alipay.Alipay_PayQueryMsgHandler"/>
                 </entry>
                 <entry key-ref="REFUND_APPLY">
-                    <bean class="com.dream.pay.channel.service.channel.alipay.common.Alipay_RefundApplyMsgHandler"/>
+                    <bean class="com.dream.pay.channel.service.channel.alipay.Alipay_RefundApplyMsgHandler"/>
                 </entry>
                 <entry key-ref="REFUND_QUERY">
-                    <bean class="com.dream.pay.channel.service.channel.alipay.common.Alipay_RefundQueryMsgHandler"/>
+                    <bean class="com.dream.pay.channel.service.channel.alipay.Alipay_RefundQueryMsgHandler"/>
                 </entry>
             </map>
         </property>
@@ -36,7 +31,7 @@
     </bean>
 
     <bean name="alipayConfig"
-          class=" com.dream.pay.channel.service.channel.alipay.common.Alipay_ChannelConfig"
+          class=" com.dream.pay.channel.service.channel.alipay.Alipay_ChannelConfig"
           scope="prototype">
         <property name="payApplyService" value="${alipay.pay_apply_service}"/>
         <property name="payQueryService" value="${alipay.pay_query_service}"/>
@@ -59,5 +54,5 @@
         <property name="refundNotifyUrl" value="${alipay.refund_notify_url}"/>
     </bean>
     <bean name="alipaySocketHandler"
-          class=" com.dream.pay.channel.service.channel.alipay.common.Alipay_SocketHandler"></bean>
+          class=" com.dream.pay.channel.service.channel.alipay.Alipay_SocketHandler"></bean>
 </beans>

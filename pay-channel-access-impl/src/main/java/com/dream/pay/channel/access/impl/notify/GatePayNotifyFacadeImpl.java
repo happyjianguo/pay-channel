@@ -4,8 +4,8 @@ import com.dream.pay.channel.access.dto.PayNotifyRepDTO;
 import com.dream.pay.channel.access.dto.PayNotifyReqDTO;
 import com.dream.pay.channel.access.enums.TradeStatus;
 import com.dream.pay.channel.access.notify.GatePayNotifyFacade;
-import com.dream.pay.channel.service.context.Channel;
-import com.dream.pay.channel.service.exception.BaseException;
+import com.dream.pay.channel.service.core.context.Channel;
+import com.dream.pay.channel.service.core.exception.BaseException;
 import com.youzan.platform.util.lang.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
