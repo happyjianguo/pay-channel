@@ -2,6 +2,8 @@ package com.dream.pay.channel.service.core.process;
 
 import com.dream.pay.channel.access.dto.BaseRep;
 import com.dream.pay.channel.access.dto.BaseReq;
+import com.dream.pay.channel.service.channel.alipay.Alipay_ChannelConfig;
+import com.dream.pay.channel.service.channel.wechat.Wechatpay_ChannelConfig;
 import com.dream.pay.channel.service.core.exception.ChannelMsgException;
 import com.dream.pay.channel.service.core.exception.ChannelSocketException;
 import com.dream.pay.channel.service.core.exception.ChannelValidateException;
@@ -9,6 +11,8 @@ import com.dream.pay.channel.service.core.handler.config.ChannelConfig;
 import com.dream.pay.channel.service.core.handler.msg.ChannelMsgHandler;
 import com.dream.pay.channel.service.core.handler.socket.ChannelSocketHandler;
 import com.dream.pay.channel.service.core.handler.validate.ChannelValidateHandler;
+import com.dream.pay.enums.PayTool;
+import com.dream.pay.utils.PropUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -120,7 +124,34 @@ public class ChannelActionProcess<REQ extends BaseReq, REP extends BaseRep> {
      */
     protected void beforPayProcess(REQ req, ChannelConfig channelConfig)
             throws ChannelValidateException, ChannelMsgException {
-        // TODO 空实现
+        String payTool = req.getPayType().name();
+
+        if (PayTool.WX_NATIVE.equals(req.getPayType())
+                || PayTool.WX_JS.equals(req.getPayType())
+                || PayTool.WX_APP.equals(req.getPayType())
+                || PayTool.WX_H5.equals(req.getPayType())) {
+            Wechatpay_ChannelConfig config = (Wechatpay_ChannelConfig) channelConfig;
+            config.setAppId(PropUtil.get(payTool + ".appId"));
+            config.setSignKey(PropUtil.get(payTool + ".signKey"));
+            config.setMerchantNo(PropUtil.get(payTool + ".merchantNo"));
+            config.setPxfPath(PropUtil.get(payTool + ".pxfPath"));
+            config.setPayNotifyUrl(PropUtil.get(payTool + ".payNotifyUrl") + "/" + payTool);
+        } else if (PayTool.ALIPAY_NATIVE.equals(req.getPayType())
+                || PayTool.ALIPAY_WAP.equals(req.getPayType())
+                || PayTool.ALIPAY_APP.equals(req.getPayType())) {
+            Alipay_ChannelConfig config = (Alipay_ChannelConfig) channelConfig;
+            config.setPartner(PropUtil.get(payTool + ".partner"));
+            config.setSignKey(PropUtil.get(payTool + ".sign_key"));
+            config.setSignType(PropUtil.get(payTool + ".sign_type"));
+            config.setCharset(PropUtil.get(payTool + ".charset"));
+            config.setSellerEmail(PropUtil.get(payTool + ".seller_email"));
+
+            config.setShowUrl(PropUtil.get("alipay.show_url") + "/" + payTool);
+            config.setPayReturnUrl(PropUtil.get("alipay.pay_return_url") + "/" + payTool);
+            config.setPayNotifyUrl(PropUtil.get("alipay.pay_notify_url") + "/" + payTool);
+            config.setRefundNotifyUrl(PropUtil.get("alipay.refund_notify_url") + "/" + payTool);
+        }
+
     }
 
     /**

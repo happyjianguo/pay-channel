@@ -28,7 +28,7 @@ import java.util.Map;
  * @remark 支付通知报文解析处理类
  */
 @Slf4j
-public class AlipayStd_PayNotifyMsgHandler extends UrlChannelMsgHandler<PayNotifyReqDTO, PayNotifyRepDTO> {
+public class AlipayNative_PayNotifyMsgHandler extends UrlChannelMsgHandler<PayNotifyReqDTO, PayNotifyRepDTO> {
 
     @Override
     public PayNotifyRepDTO resolveCallBackMsg(PayNotifyReqDTO req, ChannelConfig channelConfig)

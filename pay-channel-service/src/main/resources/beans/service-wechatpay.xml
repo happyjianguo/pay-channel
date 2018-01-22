@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-lazy-init="true" default-autowire="byName">
+    <bean id="WX_NATIVE"
+          class="com.dream.pay.channel.service.channel.wechat.scan.WechatScanPay_ChannelServiceImpl">
+        <property name="channelValidateHandler" ref="baseChannelValidateHandler"></property>
+        <property name="channelMsgHandler">
+            <map>
+                <entry key-ref="PAY_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.scan.WechatScanPay_PayApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_NOTIFY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayNotifyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayQueryMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundQueryMsgHandler"/>
+                </entry>
+
+            </map>
+        </property>
+        <property name="channelSocketHandler" ref="wechatSocketHandler"></property>
+        <property name="channelConfig" ref="wechatConfig"></property>
+    </bean>
+
+    <bean id="WX_JS"
+          class="com.dream.pay.channel.service.channel.wechat.pub.WechatPubPay_ChannelServiceImpl">
+        <property name="channelValidateHandler" ref="baseChannelValidateHandler"></property>
+        <property name="channelMsgHandler">
+            <map>
+                <entry key-ref="PAY_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.pub.WechatPubPay_PayApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_NOTIFY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayNotifyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayQueryMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundQueryMsgHandler"/>
+                </entry>
+            </map>
+        </property>
+        <property name="channelSocketHandler" ref="wechatSocketHandler"></property>
+        <property name="channelConfig" ref="wechatConfig"></property>
+    </bean>
+
+
+    <bean id="WX_H5"
+          class="com.dream.pay.channel.service.channel.wechat.wap.WechatWapPay_ChannelServiceImpl">
+        <property name="channelValidateHandler" ref="baseChannelValidateHandler"></property>
+        <property name="channelMsgHandler">
+            <map>
+                <entry key-ref="PAY_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.wap.WechatWapPay_PayApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_NOTIFY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayNotifyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayQueryMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundQueryMsgHandler"/>
+                </entry>
+            </map>
+        </property>
+        <property name="channelSocketHandler" ref="wechatSocketHandler"></property>
+        <property name="channelConfig" ref="wechatConfig"></property>
+    </bean>
+
+    <bean id="WX_APP"
+          class="com.dream.pay.channel.service.channel.wechat.app.WechatAppPay_ChannelServiceImpl">
+        <property name="channelValidateHandler" ref="baseChannelValidateHandler"></property>
+        <property name="channelMsgHandler">
+            <map>
+                <entry key-ref="PAY_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.app.WechatAppPay_PayApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_NOTIFY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayNotifyMsgHandler"/>
+                </entry>
+                <entry key-ref="PAY_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_PayQueryMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_APPLY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundApplyMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND_QUERY">
+                    <bean class="com.dream.pay.channel.service.channel.wechat.WechatPay_RefundQueryMsgHandler"/>
+                </entry>
+            </map>
+        </property>
+        <property name="channelSocketHandler" ref="wechatSocketHandler"></property>
+        <property name="channelConfig" ref="wechatConfig"></property>
+    </bean>
+
+    <bean name="wechatConfig"
+          class=" com.dream.pay.channel.service.channel.wechat.Wechatpay_ChannelConfig"
+          scope="prototype">
+        <property name="payApplyUrl" value="${wechatPay.payApplyUrl}"/>
+        <property name="refundApplyUrl" value="${wechatPay.refundApplyUrl}"/>
+        <property name="payNotifyUrl" value="${wechatPay.pay_notify_url}"/>
+        <property name="productName" value="${wechatPay.productName}"/>
+    </bean>
+
+    <bean name="wechatSocketHandler"
+          class=" com.dream.pay.channel.service.channel.wechat.Wechatpay_SocketHandler"></bean>
+</beans>

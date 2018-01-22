@@ -1,4 +1,4 @@
-package com.dream.pay.channel.service.channel.alipay;
+package com.dream.pay.channel.service.channel.wechat.pub;
 
 import com.dream.pay.channel.access.dto.*;
 import com.dream.pay.channel.access.enums.TradeType;
@@ -7,16 +7,17 @@ import com.dream.pay.channel.service.core.exception.BaseException;
 import com.dream.pay.channel.service.core.process.ChannelActionProcess;
 
 /**
- * @author 孟振滨: mengzhenbin
+ * @author 孟振滨: mengzhenbin@dangdang.com
  * @version 创建时间：2016年6月23日 下午3:38:07
  */
-public class Alipay_ChannelServiceImpl extends AbsGateWayServiceImpl {
+public class WechatPubPay_ChannelServiceImpl extends AbsGateWayServiceImpl {
 
     @Override
     public PayApplyRepDTO payApply(PayApplyReqDTO payApplyReqDTO) throws BaseException {
         ChannelActionProcess channelActionProcess = new ChannelActionProcess();
         channelActionProcess.setChannelMsgHandler(super.getChannelMsgHandler().get(TradeType.PAY_APPLY));
         channelActionProcess.setChannelValidateHandler(super.getChannelValidateHandler());
+        channelActionProcess.setChannelSocketHandler(super.getChannelSocketHandler());
         channelActionProcess.setChannelConfig(super.getChannelConfig());
         return (PayApplyRepDTO) channelActionProcess.doProcess(payApplyReqDTO);
     }
@@ -58,5 +59,4 @@ public class Alipay_ChannelServiceImpl extends AbsGateWayServiceImpl {
         channelActionProcess.setChannelConfig(super.getChannelConfig());
         return (RefundQueryRepDTO) channelActionProcess.doProcess(refundQueryReqDTO);
     }
-
 }

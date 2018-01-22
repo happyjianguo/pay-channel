@@ -13,12 +13,15 @@ public class Alipay_ChannelConfig extends ChannelConfig {
 
     private String partner; // 商户号
     private String payApplyService; // 接口名称 固定值create_direct_pay_by_user
+    private String wapPayApplyService; // 接口名称 固定值alipay.wap.create.direct.pay.by.user
+    private String appPayApplyService; // 接口名称 固定值 mobile.securitypay.pay
     private String notifyService; // 回调验证 - notify_verify
     private String payQueryService; // 查询接口 固定值single_trade_query
     private String refundApplyService; // 退款接口 固定值refund_fastpay_by_platform_nopwd
     private String refundQueryServcie; // 退款查询接口 固定值refund_fastpay_query
 
     private String postUrl; // PC支付、查询、退款、退款查询路径
+    private String wapPostUrl; // WAP支付、查询、退款、退款查询路径
 
     private String sellerId;
     private String sellerEmail; // 卖家支付宝账号sellerEmail

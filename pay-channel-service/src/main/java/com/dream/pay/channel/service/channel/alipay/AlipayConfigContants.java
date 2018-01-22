@@ -14,6 +14,7 @@ public class AlipayConfigContants {
     public static final String REFUND_CHARSET = PropUtil.get("alipay.charset");// 退款统一使用的编码
 
     public static final String PAY_TEMPLATE_PATH = "gateway/alipay/pay.ftl";
+    public static final String WAP_PAY_TEMPLATE_PATH = "gateway/alipay/wappay.ftl";
 
     public static final String DECIMAL_FORMAT = "#0.00";
 }

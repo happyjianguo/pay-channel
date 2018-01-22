@@ -20,7 +20,7 @@
                 <value>classpath:container.properties</value>
                 <value>classpath:jdbc.properties</value>
                 <value>classpath:cache.properties</value>
-                <value>classpath:alipay.properties</value>
+                <value>classpath:conf/*.properties</value>
             </list>
         </property>
     </bean>

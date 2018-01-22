@@ -37,7 +37,6 @@ public class AlipayUtil {
         Map<String, String> requestParam = ParamUtil.mapFilter(paramMap, keyFilter, valueFilter);
         // 把数组所有元素，按照"参数=参数值"的模式用"&"字符拼接成字符串
         String paramString = ParamUtil.createSortParamString(requestParam);
-        System.out.println(paramString);
         if (signType == SignType.MD5) {
             return SignUtil.md5(paramString + signKey, charset);
         } else if (signType == SignType.RSA) {
