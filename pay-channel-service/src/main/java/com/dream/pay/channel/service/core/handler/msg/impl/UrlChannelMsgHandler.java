@@ -3,13 +3,12 @@ package com.dream.pay.channel.service.core.handler.msg.impl;
 import com.dream.pay.channel.access.dto.BaseRep;
 import com.dream.pay.channel.access.dto.BaseReq;
 import com.dream.pay.channel.access.enums.TradeStatus;
-import com.dream.pay.channel.service.enums.ChannelRtnCodeEnum;
 import com.dream.pay.channel.service.core.exception.ChannelMsgException;
 import com.dream.pay.channel.service.core.handler.config.ChannelConfig;
 import com.dream.pay.channel.service.core.handler.msg.ChannelMsgHandler;
+import com.dream.pay.channel.service.enums.ChannelRtnCodeEnum;
 import com.dream.pay.utils.ParamUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -22,9 +21,9 @@ import java.util.Map;
  * @param <REP>
  * @author mengzhenbin
  */
+@Slf4j
 public abstract class UrlChannelMsgHandler<REQ extends BaseReq, REP extends BaseRep>
         implements ChannelMsgHandler<REQ, REP> {
-    private static final Logger logger = LoggerFactory.getLogger(UrlChannelMsgHandler.class);
 
     @Override
     public REQ beforBuildMsg(REQ req, ChannelConfig channelConfig) throws ChannelMsgException {
@@ -35,14 +34,14 @@ public abstract class UrlChannelMsgHandler<REQ extends BaseReq, REP extends Base
 
     @Override
     public byte[] builderMsg(REQ t, ChannelConfig channelConfig) throws ChannelMsgException {
-        logger.info("##################请求报文,无签名｜map＝" + this.getParamMap());
+        log.info("[URL报文组件]-[请求报文]｜map＝" + this.getParamMap());
         String reqString = "";
         reqString = ParamUtil.createSortParamString(this.getParamMap());
         byte[] result = null;
         try {
             result = reqString.getBytes(channelConfig.getCharset());
         } catch (Exception e) {
-            logger.error("####UrlChannelMsgHandler.builderMsg#出现异常.", e);
+            log.error("[URL报文组件]-[报文拼装]-[出现异常]", e);
             throw new ChannelMsgException(ChannelRtnCodeEnum.M10000, TradeStatus.FAIL);
         }
         return result;

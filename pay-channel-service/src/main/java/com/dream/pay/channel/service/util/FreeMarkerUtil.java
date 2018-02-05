@@ -19,7 +19,6 @@ import java.util.Map;
  * @version 1.0
  * @freemark读取报文模版
  */
-@SuppressWarnings("unused")
 public class FreeMarkerUtil {
     private static final Logger logger = LoggerFactory.getLogger(FreeMarkerUtil.class);
     private Configuration config = null;

@@ -18,7 +18,10 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 前置系统主要行为的实现封装类，抽象实现了整个前置的全部行为，集成了系统各个组件 Created by mengzhenbin on 16/06/16
+ * 前置系统主要行为的实现封装类，抽象实现了整个前置的全部行为，集成了系统各个组件
+ *
+ * @author mengzhenbin
+ * @since 16/06/16
  */
 @Slf4j
 @Setter

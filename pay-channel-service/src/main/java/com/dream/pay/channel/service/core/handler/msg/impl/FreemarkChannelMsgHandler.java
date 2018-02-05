@@ -3,10 +3,10 @@ package com.dream.pay.channel.service.core.handler.msg.impl;
 import com.dream.pay.channel.access.dto.BaseRep;
 import com.dream.pay.channel.access.dto.BaseReq;
 import com.dream.pay.channel.access.enums.TradeStatus;
-import com.dream.pay.channel.service.enums.ChannelRtnCodeEnum;
 import com.dream.pay.channel.service.core.exception.ChannelMsgException;
 import com.dream.pay.channel.service.core.handler.config.ChannelConfig;
 import com.dream.pay.channel.service.core.handler.msg.ChannelMsgHandler;
+import com.dream.pay.channel.service.enums.ChannelRtnCodeEnum;
 import com.dream.pay.channel.service.util.FreeMarkerUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,11 +34,12 @@ public abstract class FreemarkChannelMsgHandler<REQ extends BaseReq, REP extends
 
     @Override
     public byte[] builderMsg(REQ t, ChannelConfig channelConfig) throws ChannelMsgException {
+        log.info("[Freemark报文组件]-[请求报文]｜map＝" + this.getParamMap());
         String templateStr = null;
         try {
             templateStr = FreeMarkerUtil.getInstance().getStrByTemplate(this.paramMap.get(), getTemplatePath());
         } catch (Exception e) {
-            log.error("[FreemarkChannelMsgHandler]-[报文拼装]-[出现异常]", e);
+            log.error("[Freemark报文组件]-[报文拼装]-[出现异常]", e);
             throw new ChannelMsgException(ChannelRtnCodeEnum.M10000, TradeStatus.FAIL);
         }
         return templateStr.getBytes();

@@ -4,7 +4,10 @@ import com.dream.pay.channel.access.dto.BaseReq;
 import com.dream.pay.channel.service.core.exception.ChannelValidateException;
 
 /**
- * 请求实体验证接口 Created by mengzhenbin on 16/06/16
+ * 请求实体验证接口
+ *
+ * @author mengzhenbin
+ * @since 16/06/16
  */
 public interface ChannelValidateHandler<T extends BaseReq> {
 
