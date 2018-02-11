@@ -46,7 +46,7 @@ public class AlipayApp_PayApplyMsgHandler extends UrlChannelMsgHandler<PayApplyR
             super.setParam("_input_charset", StringUtils.trim(config.getCharset()));// 参数编码字符集
             super.setParam("return_url", StringUtils.trim(config.getPayReturnUrl()));// 页面跳转同步通知页面路径
             String sign = AlipayUtil.createSign(super.getParamMap(), SignType.valueOf(config.getSignType()),
-                    DESUtil.decryptModeBase64(config.getSignKey(),""), Charset.forName(config.getCharset()));
+                    DESUtil.decryptModeBase64(config.getSignKey()), Charset.forName(config.getCharset()));
             super.setParam("sign", sign);
             super.setParam("sign_type", StringUtils.trim(config.getSignType()));
         } catch (Exception e) {

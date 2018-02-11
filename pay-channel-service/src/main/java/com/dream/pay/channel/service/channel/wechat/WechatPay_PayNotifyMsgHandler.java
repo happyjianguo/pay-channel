@@ -72,7 +72,7 @@ public class WechatPay_PayNotifyMsgHandler extends UrlChannelMsgHandler<PayNotif
                 payNotifyRepDTO.setBankPayDetailNo(resTransactionId);
                 payNotifyRepDTO.setUserNo(openId);
                 if (StringUtils.isNotBlank(resTimeEnd)) {
-                    payNotifyRepDTO.setBankFinishTime((DateUtil.convertStr2DateForQuery(resTimeEnd)));
+                    payNotifyRepDTO.setBankFinishTime((DateUtil.StringToDefaultDate(resTimeEnd)));
                 }
                 if (StringUtils.isNotBlank(resTotalFee)) {
                     DecimalFormat decimalFormat = new DecimalFormat("#.##");

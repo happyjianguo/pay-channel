@@ -180,7 +180,7 @@ public class WechatPay_RefundQueryMsgHandler extends XMLChannelMsgHandler<Refund
         resultMap.put("total_fee", "9700");
         resultMap.put("transaction_id", "4007612001201612193332291624");
         String localSign = WechatpayUtil.createSign(resultMap, SignType.MD5,
-                DESUtil.decryptModeBase64("B/n9pCssu57LFQsJwU/DKqqUePf1RVyAfNn4uJ1qnwxRLBFvMizF2Q=="),
+                DESUtil.decryptModeBase64("B/n9pCssu57LFQsJwU/DKqqUePf1RVyAfNn4uJ1qnwxRLBFvMizF2Q==",""),
                 Charset.forName(StringUtils.trim("UTf-8")));
         boolean signFlag = localSign.equals(resultMap.get("sign"));
         System.out.println(localSign);

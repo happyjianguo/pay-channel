@@ -44,7 +44,7 @@ public class AlipayWap_PayNotifyMsgHandler extends UrlChannelMsgHandler<PayNotif
             if (checkSignFlag) {
                 log.info("[支付宝无线]-[支付通知]-[解析通知报文]-[验签开始]-[{}][{}]", config.getSignKey(),
                         StringUtils.trim(config.getCharset()));
-                String localSign = AlipayUtil.createWapSign(returnMap, DESUtil.decryptModeBase64(config.getSignKey()),
+                String localSign = AlipayUtil.createWapSign(returnMap, DESUtil.decryptModeBase64(config.getSignKey(), ""),
                         Charset.forName(StringUtils.trim(config.getCharset())));
                 boolean signFlag = localSign.equals(returnMap.get("sign"));
                 if (!signFlag) {
@@ -86,7 +86,7 @@ public class AlipayWap_PayNotifyMsgHandler extends UrlChannelMsgHandler<PayNotif
         String gmtPayment = returnMap.get("gmt_payment");// 交易完成时间
         if (StringUtils.isNotBlank(gmtPayment)) {// 设置支付完成时间
             payNotifyRepDTO.setChlFinishTime(new Date());// 渠道支付完成时间
-            payNotifyRepDTO.setBankFinishTime(DateUtil.StringToDateTime(gmtPayment));// 银行支付完成时间
+            payNotifyRepDTO.setBankFinishTime(DateUtil.StringToDefaultDate(gmtPayment));// 银行支付完成时间
         }
         String partner = returnMap.get("seller_id");// 收款帐号
         payNotifyRepDTO.setMerchantNo(partner);

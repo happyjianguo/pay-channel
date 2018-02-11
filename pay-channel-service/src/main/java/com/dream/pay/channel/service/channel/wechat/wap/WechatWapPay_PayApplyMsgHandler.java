@@ -50,11 +50,11 @@ public class WechatWapPay_PayApplyMsgHandler extends XMLChannelMsgHandler<PayApp
             super.setParam("spbill_create_ip", req.getExt().get(ExtendParamKey.SPBILL_CREATE_IP));// 请求IP
             super.setParam("notify_url", StringUtils.trim(String.valueOf(config.getPayNotifyUrl())));// 回调通知URL
             super.setParam("trade_type", "MWEB");// 统一下单接口trade_type:交易类型JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付, MWEB-wap
-            super.setParam("time_start", DateUtil.DateStampToStringMs(req.getReqDateTime()));// 交易起始时间
+            super.setParam("time_start", DateUtil.DateToDefaultString(req.getReqDateTime()));// 交易起始时间
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(req.getReqDateTime());
             calendar.add(Calendar.DATE, 1);// 把日期往后增加一天.整数往后推,负数往前移动
-            super.setParam("time_expire", DateUtil.DateStampToStringMs(calendar.getTime()));// 交易结束时间
+            super.setParam("time_expire", DateUtil.DateToDefaultString(calendar.getTime()));// 交易结束时间
             String sign = WechatpayUtil.createSign(super.getParamMap(),
                     SignType.valueOf(StringUtils.trim(config.getSignType())),
                     DESUtil.decryptModeBase64(config.getSignKey()),

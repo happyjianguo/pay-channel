@@ -51,11 +51,11 @@ public class WechatPubPay_PayApplyMsgHandler extends XMLChannelMsgHandler<PayApp
             super.setParam("spbill_create_ip", StringUtils.trim(req.getUserIp()));// 请求IP
             super.setParam("notify_url", StringUtils.trim(String.valueOf(config.getPayNotifyUrl())));// 回调通知URL
             super.setParam("trade_type", "JSAPI");// 统一下单接口trade_type:交易类型JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付
-            super.setParam("time_start", DateUtil.DateStampToStringMs(req.getReqDateTime()));// 交易起始时间
+            super.setParam("time_start", DateUtil.DateToDefaultString(req.getReqDateTime()));// 交易起始时间
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(req.getReqDateTime());
             calendar.add(Calendar.DATE, 1);// 把日期往后增加一天.整数往后推,负数往前移动
-            super.setParam("time_expire", DateUtil.DateStampToStringMs(calendar.getTime()));// 交易结束时间
+            super.setParam("time_expire", DateUtil.DateToDefaultString(calendar.getTime()));// 交易结束时间
             if (null != req.getExt() && null != req.getExt().get(ExtendParamKey.OPEN_ID)) {// 用户标示
                 String openId = req.getExt().get(ExtendParamKey.OPEN_ID);
                 super.setParam("openid", openId);// 用户在商户appid下的唯一标识。

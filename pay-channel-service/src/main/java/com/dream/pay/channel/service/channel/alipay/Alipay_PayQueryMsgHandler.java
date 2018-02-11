@@ -93,7 +93,7 @@ public class Alipay_PayQueryMsgHandler extends UrlChannelMsgHandler<PayQueryReqD
             }
             String gmt_payment = childMap.get("gmt_payment");// 交易完成时间
             if (StringUtils.isNotBlank(gmt_payment)) {
-                payQueryRepDTO.setBankFinishTime(DateUtil.StringToDateTime(gmt_payment));// 银行支付完成时间
+                payQueryRepDTO.setBankFinishTime(DateUtil.StringToDefaultDate(gmt_payment));// 银行支付完成时间
             }
             String partner = childMap.get("seller_id");// 收款帐号
             payQueryRepDTO.setMerchantNo(partner);

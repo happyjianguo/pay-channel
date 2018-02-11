@@ -43,7 +43,7 @@ public class Alipay_RefundApplyMsgHandler extends UrlChannelMsgHandler<RefundApp
             super.setParam("seller_email", StringUtils.trim(config.getSellerEmail()));// 卖家支付宝账号
             super.setParam("notify_url", StringUtils.trim(config.getRefundNotifyUrl()));// 服务器异步通知页面路径
             super.setParam("batch_no", StringUtils.trim(req.getRefundBatchNo()));// 退款批次号
-            super.setParam("refund_date", DateUtil.DateTimeToString(req.getReqDateTime()));// 退款时间
+            super.setParam("refund_date", DateUtil.DateToDefaultString(req.getReqDateTime()));// 退款时间
             super.setParam("batch_num", "1");// 退款比数(detail_data中＃数量＋1)
             StringBuilder builder = new StringBuilder();
             DecimalFormat format = new DecimalFormat(AlipayConfigContants.DECIMAL_FORMAT);

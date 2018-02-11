@@ -73,7 +73,7 @@ public class AlipayNative_PayNotifyMsgHandler extends UrlChannelMsgHandler<PayNo
         }
         String gmtPayment = returnMap.get("gmt_payment");// 交易完成时间
         if (StringUtils.isNotBlank(gmtPayment)) {// 设置支付完成时间
-            payNotifyRepDTO.setBankFinishTime(DateUtil.StringToDateTime(gmtPayment));// 银行支付完成时间
+            payNotifyRepDTO.setBankFinishTime(DateUtil.StringToDefaultDate(gmtPayment));// 银行支付完成时间
         }
         String partner = returnMap.get("seller_id");// 收款帐号
         payNotifyRepDTO.setMerchantNo(partner);

@@ -107,7 +107,7 @@ public class WechatPay_PayQueryMsgHandler extends XMLChannelMsgHandler<PayQueryR
                 }
                 payQueryRepDTO.setBankPayDetailNo(resTransactionId);
                 if (StringUtils.isNotBlank(resTimeEnd)) {
-                    payQueryRepDTO.setBankFinishTime((DateUtil.convertStr2DateForQuery(resTimeEnd)));
+                    payQueryRepDTO.setBankFinishTime((DateUtil.StringToDefaultDate(resTimeEnd)));
                 }
                 if (StringUtils.isNotBlank(resTotalFee)) {
                     DecimalFormat decimalFormat = new DecimalFormat("#.##");
